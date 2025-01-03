@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewDashboard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/distance_medium">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/TextAppearance.MaterialComponents.Headline3"
+                    android:text="@string/text_title"
+                    android:id="@+id/txvCanteenName" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/txvCanteenAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_address" />
+            <TextView
+                android:id="@+id/txvWebsite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_website" />
+            <TextView
+                android:id="@+id/txvPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_phone_number" />
+
+            <TextView
+                android:paddingTop="@dimen/distance_medium"
+                style="@style/TextAppearance.MaterialComponents.Overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_large"
+                android:text="@string/text_waiting_time" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txvWaitingTime"
+                    style="@style/TextAppearance.MaterialComponents.Headline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/distance_small"
+                    android:text="@string/text_minutes" />
+
+
+            </LinearLayout>
+            <ProgressBar
+                android:id="@+id/prbWaitingTime"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="60" />
+
+            <Button
+                android:id="@+id/btnChangeWaitingTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Waiting Time"
+                android:layout_marginBottom="16dp" />
+
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Overline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/distance_large"
+                android:text="@string/text_dish_of_the_day" />
+
+            <TextView
+                android:id="@+id/txvDish"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_dish_of_the_day"/>
+
+            <TextView
+                android:id="@+id/txvDishPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_sample_dishprice"/>
+
+            <Button
+                android:id="@+id/btnChangeDishOfTheDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change dish of the day"
+                android:layout_marginBottom="16dp" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fcvReviews" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

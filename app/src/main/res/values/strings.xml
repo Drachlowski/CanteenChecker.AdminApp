@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">CanteenChecker.AdminApp</string>
+    <string name="hint_user_name">User name</string>
+    <string name="hint_password">Password</string>
+    <string name="text_login">Login</string>
+    <string name="text_waiting_time">Current Waiting Time</string>
+    <string name="text_minutes">Minutes</string>
+    <string name="text_title">Title</string>
+    <string name="text_address">Address</string>
+    <string name="text_website">Website</string>
+    <string name="text_phone_number">Phone number</string>
+    <string name="text_dish_of_the_day">Dish of the day</string>
+    <string name="text_sample_dishprice">9.99</string>
+    <string name="text_ratings_and_reviews">Ratings and Reviews</string>
+    <string name="text_five">5</string>
+    <string name="text_four">4</string>
+    <string name="text_three">3</string>
+    <string name="text_two">2</string>
+    <string name="text_one">1</string>
+    <string name="text_show_reviews">Show Reviews</string>
+</resources>
