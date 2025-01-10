@@ -78,7 +78,7 @@ class EditCanteenActivity : AppCompatActivity() {
                         .title(address))
                     it.animateCamera(CameraUpdateFactory.newLatLngZoom(latitudeLongitude, 15f))
                 }
-                binding.edtCanteenAddress.setText(address ?: "Invalid location")
+                binding.edtCanteenAddress.setText(address ?: getString(R.string.invalid_location))
             }
         }
 
@@ -152,10 +152,12 @@ class EditCanteenActivity : AppCompatActivity() {
 
         AdminApiFactory.createAdminApi().updateCanteenData(authenticationToken, canteenData)
             .onFailure {
-                Toast.makeText(this@EditCanteenActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EditCanteenActivity,
+                    getString(R.string.error_updating_canteen), Toast.LENGTH_SHORT).show()
             }
             .onSuccess {
-                Toast.makeText(this@EditCanteenActivity, "Successfully updated canteen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EditCanteenActivity,
+                    getString(R.string.successfully_updated_canteen), Toast.LENGTH_SHORT).show()
                 finish()
             }
     }
@@ -165,7 +167,7 @@ class EditCanteenActivity : AppCompatActivity() {
 
         AdminApiFactory.createAdminApi().getCanteen(authenticationToken)
             .onFailure {
-                Toast.makeText(this@EditCanteenActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EditCanteenActivity, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
             }
             .onSuccess {
                 binding.edtCanteenName.setText(it.name)

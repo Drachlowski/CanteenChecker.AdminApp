@@ -45,7 +45,7 @@ class ReviewsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.apply {
-            title = "Reviews"
+            title = getString(R.string.title_reviews)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
@@ -69,10 +69,7 @@ class ReviewsActivity : AppCompatActivity() {
 
 
     private fun updateReviews() = lifecycleScope.launch {
-        var authenticationToken = (application as CanteenCheckerApplication).authenticationToken
-        if (authenticationToken == null) {
-            authenticationToken = ""
-        }
+        val authenticationToken = (application as CanteenCheckerApplication).authenticationToken?: ""
         binding.srlSwipeRefreshLayout.isRefreshing = true
 
         reviewsAdapter.displayReviews(
@@ -80,7 +77,8 @@ class ReviewsActivity : AppCompatActivity() {
                 .createAdminApi()
                 .getCanteenReviews(authenticationToken)
                 .getOrElse {
-                    Toast.makeText(this@ReviewsActivity, "Cannot load reviews - please try again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ReviewsActivity,
+                        getString(R.string.error_load_reviews), Toast.LENGTH_SHORT).show()
                     emptyList()
                 }
         )
@@ -126,13 +124,13 @@ class ReviewsActivity : AppCompatActivity() {
 
             btnDelete.setOnClickListener {
                 AlertDialog.Builder(context)
-                    .setTitle("Delete Review")
-                    .setMessage("Do you really want to delete this review?")
-                    .setPositiveButton("Yes") { dialog, _ ->
+                    .setTitle(context.getString(R.string.delete_review))
+                    .setMessage(context.getString(R.string.message_review_deletion))
+                    .setPositiveButton(context.getString(R.string.yes)) { dialog, _ ->
                             deleteReview(review)
                             dialog.dismiss()
                     }
-                    .setNegativeButton("No") { dialog, _ ->
+                    .setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
                         dialog.dismiss()
                     }
                     .create()
@@ -149,20 +147,18 @@ class ReviewsActivity : AppCompatActivity() {
 
         private fun deleteReview(review: CanteenReview) {
             lifecycleScope.launch {
-                val authenticationToken = (context.applicationContext as CanteenCheckerApplication).authenticationToken
-                if (authenticationToken.isNullOrEmpty()) {
-                    Toast.makeText(context, "Authentication failed", Toast.LENGTH_SHORT).show()
-                    return@launch
-                }
+                val authenticationToken = (context.applicationContext as CanteenCheckerApplication).authenticationToken?: ""
 
                 AdminApiFactory.createAdminApi().deleteReview(authenticationToken, review.id)
                     .onSuccess {
-                        Toast.makeText(context, "Review deleted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,
+                            context.getString(R.string.review_deleted), Toast.LENGTH_SHORT).show()
                         reviews = reviews.filter { it.id != review.id }
                         notifyDataSetChanged()
                     }
                     .onFailure {
-                        Toast.makeText(context, "Failed to delete review", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,
+                            context.getString(R.string.failed_to_delete_review), Toast.LENGTH_SHORT).show()
                     }
             }
         }

@@ -36,8 +36,6 @@ class ReviewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding
-
         binding.btnAddReview.setOnClickListener{
             startActivity(ReviewsActivity.intent(requireActivity()))
         }
@@ -46,7 +44,7 @@ class ReviewsFragment : Fragment() {
     }
 
     private fun updateReviews() = lifecycleScope.launch {
-        var authenticationToken = (requireActivity().application as CanteenCheckerApplication).authenticationToken?: ""
+        val authenticationToken = (requireActivity().application as CanteenCheckerApplication).authenticationToken?: ""
 
         AdminApiFactory.createAdminApi().getCanteenStatistics(authenticationToken)
             .onFailure {

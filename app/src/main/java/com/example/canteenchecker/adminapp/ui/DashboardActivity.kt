@@ -40,7 +40,7 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.apply {
-            title = "Dashboard"
+            title = getString(R.string.text_dashboard)
         }
 
         binding.btnChangeWaitingTime.setOnClickListener{ changeWaitingTime() }
@@ -86,7 +86,8 @@ class DashboardActivity : AppCompatActivity() {
 
         AdminApiFactory.createAdminApi().getCanteen(authenticationToken)
             .onFailure {
-                Toast.makeText(this@DashboardActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DashboardActivity,
+                    getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show()
             }
             .onSuccess {
                 binding.txvCanteenName.text = it.name
@@ -111,10 +112,7 @@ class DashboardActivity : AppCompatActivity() {
 
 
     private fun changeWaitingTime() {
-        var authenticationToken = (application as CanteenCheckerApplication).authenticationToken
-        if (authenticationToken == null) {
-            authenticationToken = ""
-        }
+        var authenticationToken = (application as CanteenCheckerApplication).authenticationToken?: ""
 
         val context = this
 
@@ -160,11 +158,7 @@ class DashboardActivity : AppCompatActivity() {
 
 
     private fun changeDishOfTheDay() {
-        var authenticationToken = (application as CanteenCheckerApplication).authenticationToken
-        if (authenticationToken == null) {
-            authenticationToken = ""
-        }
-
+        val authenticationToken = (application as CanteenCheckerApplication).authenticationToken?: ""
         val context = this
 
         val view = layoutInflater.inflate(R.layout.dialog_change_dish_of_the_day, null)

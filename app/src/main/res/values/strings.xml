@@ -35,4 +35,18 @@
     <string name="enter_phone_number">Enter phone number</string>
     <string name="enter_canteen_name">Enter canteen name</string>
     <string name="save">Save</string>
+    <string name="something_went_wrong">Something went wrong...</string>
+    <string name="text_dashboard">Dashboard</string>
+    <string name="successfully_updated_canteen">Successfully updated canteen</string>
+    <string name="error_updating_canteen">Error updating canteen</string>
+    <string name="invalid_location">Invalid location</string>
+    <string name="error_login">Login not successful - please try again</string>
+    <string name="failed_to_delete_review">Failed to delete review</string>
+    <string name="review_deleted">Review deleted</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="message_review_deletion">Do you really want to delete this review?</string>
+    <string name="delete_review">Delete Review</string>
+    <string name="error_load_reviews">Cannot load reviews - please try again</string>
+    <string name="title_reviews">Reviews</string>
 </resources>

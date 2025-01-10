@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.canteenchecker.adminapp.CanteenCheckerApplication
+import com.example.canteenchecker.adminapp.R
 import com.example.canteenchecker.adminapp.api.AdminApiFactory
 import com.example.canteenchecker.adminapp.databinding.ActivityLoginBinding
 import kotlinx.coroutines.launch
@@ -38,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
                 .onFailure {
                     setUIEnabled(true)
                     binding.edtPassword.text.clear()
-                    Toast.makeText(context, "Login not successful - please try again", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.error_login), Toast.LENGTH_SHORT).show()
                 }
                 .onSuccess {
                     binding.edtUserName.text.clear()
