@@ -41,10 +41,11 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(context, "Login not successful - please try again", Toast.LENGTH_SHORT).show()
                 }
                 .onSuccess {
+                    binding.edtUserName.text.clear()
                     binding.edtPassword.text.clear()
+                    setUIEnabled(true)
                     (application as CanteenCheckerApplication).authenticationToken = it
                     startActivity(DashboardActivity.intent(context))
-                    finish()
                 }
         }
     }

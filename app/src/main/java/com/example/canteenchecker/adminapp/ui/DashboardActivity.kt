@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.canteenchecker.adminapp.CanteenCheckerApplication
 import com.example.canteenchecker.adminapp.R
 import com.example.canteenchecker.adminapp.api.AdminApiFactory
+import com.example.canteenchecker.adminapp.core.Canteen
 import com.example.canteenchecker.adminapp.core.CanteenChangedBroadcastReceiver
 import com.example.canteenchecker.adminapp.core.Dish
 import com.example.canteenchecker.adminapp.core.registerCanteenChangedBroadcastReceiver
@@ -28,6 +31,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDashboardBinding
+    private lateinit var canteen: Canteen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +39,9 @@ class DashboardActivity : AppCompatActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.title = "Dashboard"
+        supportActionBar?.apply {
+            title = "Dashboard"
+        }
 
         binding.btnChangeWaitingTime.setOnClickListener{ changeWaitingTime() }
         binding.btnChangeDishOfTheDay.setOnClickListener{changeDishOfTheDay()}
@@ -46,6 +52,24 @@ class DashboardActivity : AppCompatActivity() {
 
         updateCanteen()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_dashboard, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.mniEditCanteen -> {
+                return true
+            }
+            R.id.mniLogOut -> {
+                (application as CanteenCheckerApplication).authenticationToken = null
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun updateCanteen() = lifecycleScope.launch {
@@ -68,6 +92,8 @@ class DashboardActivity : AppCompatActivity() {
 
                     binding.txvDish.text = it.dish
                     binding.txvDishPrice.text = "${it.dishPrice}€"
+
+                    canteen = it
 
                 }
         }
@@ -95,8 +121,6 @@ class DashboardActivity : AppCompatActivity() {
         var authenticationToken = (application as CanteenCheckerApplication).authenticationToken
         if (authenticationToken == null) {
             authenticationToken = ""
-//            Toast.makeText(this@DashboardActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
-//            return
         }
 
         val context = this
@@ -108,16 +132,18 @@ class DashboardActivity : AppCompatActivity() {
             .setTitle(R.string.text_waiting_time)
             .setView(view)
             .setPositiveButton(R.string.text_send){ dialog, _ ->
-                dialog.dismiss()
                 lifecycleScope.launch {
                     AdminApiFactory.createAdminApi().updateWaitingTime(
                         authenticationToken,
                         view.findViewById<EditText>(R.id.edtWaitingTime).text.toString().toInt()
                     ).onFailure {
                         Toast.makeText(context, R.string.message_waitingtime_not_updated, Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
                     }
                     .onSuccess {
+                        updateCanteen()
                         Toast.makeText(context, R.string.message_waitingtime_updated, Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
                     }
                 }
             }.create().show()
@@ -144,21 +170,24 @@ class DashboardActivity : AppCompatActivity() {
         var authenticationToken = (application as CanteenCheckerApplication).authenticationToken
         if (authenticationToken == null) {
             authenticationToken = ""
-//            Toast.makeText(this@DashboardActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
-//            return
         }
 
         val context = this
 
         val view = layoutInflater.inflate(R.layout.dialog_change_dish_of_the_day, null)
 
+        val dishTextView = view.findViewById<EditText>(R.id.edtDishOfTheDayName)
+        dishTextView.setText(canteen.dish)
+
+        val dishPriceTextView = view.findViewById<EditText>(R.id.edtDishOfTheDayPrice)
+        dishPriceTextView.setText(canteen.dishPrice.toString())
+
         AlertDialog.Builder(context)
             .setTitle(R.string.text_change_dish_of_the_day)
             .setView(view)
             .setPositiveButton(R.string.text_send){ dialog, _ ->
-                dialog.dismiss()
-                val dishOfTheDayName = view.findViewById<EditText>(R.id.edtDishOfTheDayName).text.toString()
-                val dishOfTheDayPrice = view.findViewById<EditText>(R.id.edtDishOfTheDayPrice).text.toString().toDoubleOrNull() ?: 0.00
+                val dishOfTheDayName = dishTextView.text.toString()
+                val dishOfTheDayPrice = dishPriceTextView.text.toString().toDoubleOrNull() ?: 0.00
 
                 if (dishOfTheDayIsValid(dishOfTheDayName, dishOfTheDayPrice)) {
                     val dish = Dish(dishOfTheDayName, dishOfTheDayPrice)
@@ -166,9 +195,12 @@ class DashboardActivity : AppCompatActivity() {
                         AdminApiFactory.createAdminApi().updateDish(
                             authenticationToken, dish).onFailure {
                             Toast.makeText(context, R.string.message_waitingtime_not_updated, Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
                         }
                         .onSuccess {
+                            updateCanteen()
                             Toast.makeText(context, R.string.message_waitingtime_updated, Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
                         }
                     }
                 }
