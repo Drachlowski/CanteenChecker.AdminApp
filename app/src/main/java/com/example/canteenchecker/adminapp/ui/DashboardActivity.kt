@@ -59,18 +59,19 @@ class DashboardActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.mniEditCanteen -> {
-                return true
+                startActivity(EditCanteenActivity.intent(this))
+                true
             }
             R.id.mniLogOut -> {
                 (application as CanteenCheckerApplication).authenticationToken = null
                 finish()
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
-    }
 
     private fun updateCanteen() = lifecycleScope.launch {
         var authenticationToken = (application as CanteenCheckerApplication).authenticationToken

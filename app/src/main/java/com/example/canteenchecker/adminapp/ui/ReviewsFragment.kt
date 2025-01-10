@@ -46,12 +46,8 @@ class ReviewsFragment : Fragment() {
     }
 
     private fun updateReviews() = lifecycleScope.launch {
-        var authenticationToken = (requireActivity().application as CanteenCheckerApplication).authenticationToken
-        if (authenticationToken == null) {
-            authenticationToken = ""
-//            Toast.makeText(this@DashboardActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
-//            return
-        }
+        var authenticationToken = (requireActivity().application as CanteenCheckerApplication).authenticationToken?: ""
+
         AdminApiFactory.createAdminApi().getCanteenStatistics(authenticationToken)
             .onFailure {
                 binding.txvAverageRating.text = null

@@ -2,27 +2,37 @@ package com.example.canteenchecker.adminapp.ui
 
 import android.content.Context
 import android.content.Intent
+import android.location.Geocoder
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.lifecycleScope
 import com.example.canteenchecker.adminapp.CanteenCheckerApplication
 import com.example.canteenchecker.adminapp.R
 import com.example.canteenchecker.adminapp.api.AdminApiFactory
+import com.example.canteenchecker.adminapp.core.CanteenData
 import com.example.canteenchecker.adminapp.databinding.ActivityEditCanteenBinding
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
 
 class EditCanteenActivity : AppCompatActivity() {
 
     companion object {
         fun intent(context: Context) = Intent(context, EditCanteenActivity::class.java)
+
+        private const val DEFAULT_ZOOM_FACTOR = 15f;
     }
 
     private lateinit var binding: ActivityEditCanteenBinding
     private lateinit var mapFragment: SupportMapFragment
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +52,78 @@ class EditCanteenActivity : AppCompatActivity() {
                 setAllGesturesEnabled(true)
                 isZoomControlsEnabled = true
             }
+
+            it.setOnMapClickListener { latitudeLongitude ->
+                val address = try {
+                    val geocoder = Geocoder(this)
+                    val results = geocoder.getFromLocation(
+                        latitudeLongitude.latitude,
+                        latitudeLongitude.longitude,
+                        1
+                    )
+                    if (results.isNullOrEmpty()) {
+                        null
+                    } else {
+                        results.first().getAddressLine(0) // The full address
+                    }
+                } catch (e: Exception) {
+                    null
+                }
+
+                if (address != null) {
+                    binding.edtCanteenAddress.setText(address)
+                    it.clear()
+                    it.addMarker(MarkerOptions()
+                        .position(latitudeLongitude)
+                        .title(address))
+                    it.animateCamera(CameraUpdateFactory.newLatLngZoom(latitudeLongitude, 15f))
+                }
+                binding.edtCanteenAddress.setText(address ?: "Invalid location")
+            }
         }
+
+        binding.edtCanteenAddress.setOnEditorActionListener {
+            v, _, _ ->
+                val rawAddress = v.text.toString().trim()
+                if (rawAddress.isNotBlank()) {
+                    updateMap(rawAddress)
+                }
+                false
+
+        }
+
 
         updateCanteen()
     }
 
+    private fun updateMap(address: String) {
+        val addressCoords = Geocoder(this@EditCanteenActivity)
+            .getFromLocationName(address, 1)
+            ?.firstOrNull()
+            ?.run{ LatLng(latitude, longitude)}
+        mapFragment.getMapAsync{ map ->
+            map.apply {
+                clear()
+                if(addressCoords != null){
+                    addMarker(MarkerOptions().position(addressCoords))
+                    animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(addressCoords, DEFAULT_ZOOM_FACTOR)
+                    )
+                }else{
+                    animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(LatLng(0.0, 0.0), 0f)
+                    )
+                }
+
+            }
+        }
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_edit_canteen, menu)
+        return true
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -54,34 +131,49 @@ class EditCanteenActivity : AppCompatActivity() {
                 finish()
                 true
             }
+            R.id.mniSaveCanteen -> {
+                saveCanteenData()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+
+    }
+
+    private fun saveCanteenData() = lifecycleScope.launch {
+        val authenticationToken = (application as CanteenCheckerApplication).authenticationToken?: ""
+
+        val canteenData = CanteenData(
+            binding.edtCanteenName.text.toString(),
+            binding.edtCanteenAddress.text.toString(),
+            binding.edtCanteenWebsite.text.toString(),
+            binding.edtPhoneNumber.text.toString()
+        )
+
+        AdminApiFactory.createAdminApi().updateCanteenData(authenticationToken, canteenData)
+            .onFailure {
+                Toast.makeText(this@EditCanteenActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
+            }
+            .onSuccess {
+                Toast.makeText(this@EditCanteenActivity, "Successfully updated canteen", Toast.LENGTH_SHORT).show()
+                finish()
+            }
     }
 
     private fun updateCanteen() = lifecycleScope.launch {
-        var authenticationToken = (application as CanteenCheckerApplication).authenticationToken
-        if (authenticationToken == null) {
-            Toast.makeText(this@EditCanteenActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            AdminApiFactory.createAdminApi().getCanteen(authenticationToken)
-                .onFailure {
-                    Toast.makeText(this@EditCanteenActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
-                }
-                .onSuccess {
-//                    binding.txvCanteenName.text = it.name
-//                    binding.txvCanteenAddress.text = it.address
-//                    binding.txvWebsite.text = it.website
-//                    binding.txvPhoneNumber.text = it.phoneNumber
-//                    binding.txvWaitingTime.text = it.waitingTime.toString()
-//                    binding.prbWaitingTime.progress = it.waitingTime
-//
-//                    binding.txvDish.text = it.dish
-//                    binding.txvDishPrice.text = "${it.dishPrice}€"
-//
-//                    canteen = it
+        val authenticationToken = (application as CanteenCheckerApplication).authenticationToken?: ""
 
-                }
-        }
+        AdminApiFactory.createAdminApi().getCanteen(authenticationToken)
+            .onFailure {
+                Toast.makeText(this@EditCanteenActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
+            }
+            .onSuccess {
+                binding.edtCanteenName.setText(it.name)
+                binding.edtCanteenWebsite.setText(it.website)
+                binding.edtPhoneNumber.setText(it.phoneNumber)
+                binding.edtCanteenAddress.setText(it.address)
+
+                updateMap(it.address)
+            }
     }
 }

@@ -1,21 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <EditText
+        android:id="@+id/edtCanteenName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/editCanteen">
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/distance_small"
+        android:layout_marginTop="@dimen/distance_small"
+        android:hint="@string/enter_canteen_name"
+        android:inputType="text"
+        android:autofillHints="streetAddress" />
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fcvMap"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_canteen_details_map"
-            android:layout_marginTop="@dimen/distance_small"
-            android:tag="@string/tag_map_fragment" />
+    <EditText
+        android:id="@+id/edtCanteenWebsite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/distance_small"
+        android:layout_marginTop="@dimen/distance_small"
+        android:hint="@string/enter_website"
+        android:inputType="textUri"
+        android:autofillHints="streetAddress" />
 
-    </ScrollView>
+    <EditText
+        android:id="@+id/edtPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/distance_small"
+        android:layout_marginTop="@dimen/distance_small"
+        android:hint="@string/enter_phone_number"
+        android:inputType="phone"
+        android:autofillHints="streetAddress" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/edtCanteenAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/distance_small"
+        android:layout_marginTop="@dimen/distance_small"
+        android:hint="@string/enter_address"
+        android:inputType="textPostalAddress"
+        android:autofillHints="streetAddress" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcvMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_canteen_details_map"
+        android:layout_marginTop="@dimen/distance_small"
+        android:tag="@string/tag_map_fragment" />
+
+
+</LinearLayout>

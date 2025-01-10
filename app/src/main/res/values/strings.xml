@@ -30,4 +30,9 @@
     <string name="delete">Delete</string>
     <string name="dialog_delete_review">Are you sure to delete this review?</string>
     <string name="tag_map_fragment" translatable="false">MapFragment</string>
+    <string name="enter_address">Enter address</string>
+    <string name="enter_website">Enter Website</string>
+    <string name="enter_phone_number">Enter phone number</string>
+    <string name="enter_canteen_name">Enter canteen name</string>
+    <string name="save">Save</string>
 </resources>

@@ -15,6 +15,7 @@ firebase-bom = "33.7.0"
 firebase-messaging = "24.1.0"
 google-services = "4.4.2"
 swiperefreshlayout="1.1.0"
+uiTextAndroid = "1.7.6"
 
 
 [libraries]
@@ -31,6 +32,7 @@ google-maps = { group = "com.google.android.gms", name = "play-services-maps", v
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebase-messaging" }
 swiperefreshlayout = {group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref="swiperefreshlayout"}
+androidx-ui-text-android = { group = "androidx.compose.ui", name = "ui-text-android", version.ref = "uiTextAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
