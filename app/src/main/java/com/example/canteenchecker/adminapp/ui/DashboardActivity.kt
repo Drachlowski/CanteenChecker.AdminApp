@@ -31,7 +31,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityDashboardBinding
-    private lateinit var canteen: Canteen
+    private var canteen: Canteen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +76,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private val receiver = object : CanteenChangedBroadcastReceiver(){
         override fun onReceiveCanteenChanged(canteenId: String) {
-            if(canteenId == this@DashboardActivity.canteen.id)
+            if(canteen != null && canteenId == canteen?.id)
                 updateCanteen()
         }
     }
@@ -164,10 +164,10 @@ class DashboardActivity : AppCompatActivity() {
         val view = layoutInflater.inflate(R.layout.dialog_change_dish_of_the_day, null)
 
         val dishTextView = view.findViewById<EditText>(R.id.edtDishOfTheDayName)
-        dishTextView.setText(canteen.dish)
+        dishTextView.setText(canteen?.dish)
 
         val dishPriceTextView = view.findViewById<EditText>(R.id.edtDishOfTheDayPrice)
-        dishPriceTextView.setText(canteen.dishPrice.toString())
+        dishPriceTextView.setText(canteen?.dishPrice.toString())
 
         AlertDialog.Builder(context)
             .setTitle(R.string.text_change_dish_of_the_day)
