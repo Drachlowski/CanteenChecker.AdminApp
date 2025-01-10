@@ -47,7 +47,6 @@ class DashboardActivity : AppCompatActivity() {
         binding.btnChangeDishOfTheDay.setOnClickListener{changeDishOfTheDay()}
 
         supportFragmentManager.beginTransaction().addReviewsFragment(R.id.fcvReviews).commitNow()
-
         registerCanteenChangedBroadcastReceiver(receiver)
 
         updateCanteen()
@@ -76,8 +75,11 @@ class DashboardActivity : AppCompatActivity() {
 
     private val receiver = object : CanteenChangedBroadcastReceiver(){
         override fun onReceiveCanteenChanged(canteenId: String) {
-            if(canteen != null && canteenId == canteen?.id)
+            if(canteen != null && canteenId == canteen?.id) {
                 updateCanteen()
+                val reviewsFragment = supportFragmentManager.findFragmentById(R.id.fcvReviews) as? ReviewsFragment
+                reviewsFragment?.updateReviews()
+            }
         }
     }
 

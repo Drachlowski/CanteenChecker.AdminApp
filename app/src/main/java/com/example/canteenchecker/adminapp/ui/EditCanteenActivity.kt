@@ -9,7 +9,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.text.intl.Locale
 import androidx.lifecycle.lifecycleScope
 import com.example.canteenchecker.adminapp.CanteenCheckerApplication
 import com.example.canteenchecker.adminapp.R

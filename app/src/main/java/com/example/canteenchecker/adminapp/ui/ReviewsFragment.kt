@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 class ReviewsFragment : Fragment() {
 
     companion object {
-
         fun FragmentTransaction.addReviewsFragment(@IdRes containerViewId: Int) : FragmentTransaction {
             return add(containerViewId, ReviewsFragment::class.java, null)
         }
@@ -43,7 +42,7 @@ class ReviewsFragment : Fragment() {
         updateReviews()
     }
 
-    private fun updateReviews() = lifecycleScope.launch {
+    fun updateReviews() = lifecycleScope.launch {
         val authenticationToken = (requireActivity().application as CanteenCheckerApplication).authenticationToken?: ""
 
         AdminApiFactory.createAdminApi().getCanteenStatistics(authenticationToken)
