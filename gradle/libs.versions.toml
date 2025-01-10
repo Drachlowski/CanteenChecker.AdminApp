@@ -10,6 +10,11 @@ material = "1.10.0"
 retrofit = "2.11.0"
 retrofit-converter-scalars = "2.11.0"
 retrofit-converter-gson = "2.11.0"
+google-maps = "19.0.0"
+firebase-bom = "33.7.0"
+firebase-messaging = "24.1.0"
+google-services = "4.4.2"
+swiperefreshlayout="1.1.0"
 
 
 [libraries]
@@ -22,8 +27,14 @@ material = { group = "com.google.android.material", name = "material", version.r
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit-converter-scalars"}
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-converter-gson"}
+google-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "google-maps" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebase-messaging" }
+swiperefreshlayout = {group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref="swiperefreshlayout"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services"}
+
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/distance_small"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/distance_small">
+        <TextView
+            android:id="@+id/txvCreator"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Andi"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <RatingBar
+            android:id="@+id/rtbRating"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/distance_small"
+            android:isIndicator="true"
+            android:numStars="5"
+            app:layout_constraintTop_toBottomOf="@id/txvCreator"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/txvCreationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2024-01-01"
+            android:layout_marginStart="@dimen/distance_small"
+            app:layout_constraintStart_toEndOf="@id/rtbRating"
+            app:layout_constraintTop_toTopOf="@id/rtbRating"
+            app:layout_constraintBottom_toBottomOf="@id/rtbRating"
+            />
+        <TextView
+            android:id="@+id/txvRemark"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Remark"
+            android:layout_marginTop="@dimen/distance_small"
+            app:layout_constraintTop_toBottomOf="@id/rtbRating"
+            app:layout_constraintStart_toStartOf="@id/rtbRating"
+            />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/distance_small"
+            android:text="@string/delete"
+            app:layout_constraintTop_toBottomOf="@id/txvRemark"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

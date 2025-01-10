@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/distance_medium">
+
+    <EditText
+        android:id="@+id/edtDishOfTheDayName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_small"
+        android:hint="@string/new_dish_of_the_day"
+        android:inputType="textAutoComplete"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/edtDishOfTheDayPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/distance_small"
+        android:hint="@string/text_new_price"
+        android:inputType="numberDecimal"
+        android:importantForAutofill="no" />
+
+</LinearLayout>

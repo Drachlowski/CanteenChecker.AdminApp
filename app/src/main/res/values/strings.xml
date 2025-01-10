@@ -18,4 +18,15 @@
     <string name="text_two">2</string>
     <string name="text_one">1</string>
     <string name="text_show_reviews">Show Reviews</string>
+    <string name="text_new_waiting_time">New waiting time</string>
+    <string name="text_send">Send\n</string>
+    <string name="message_waitingtime_updated">Waiting time has been updated.</string>
+    <string name="message_waitingtime_not_updated">Waiting time cannot be updated.</string>
+    <string name="new_dish_of_the_day">New dish of the day</string>
+    <string name="text_new_price">New price</string>
+    <string name="text_change_dish_of_the_day">Change dish of the day\n</string>
+    <string name="error_dish_name">The dish name shouldn\'t be empty</string>
+    <string name="error_dish_price">Please set a realistic dish price, your canteen should stay profitable</string>
+    <string name="delete">Delete</string>
+    <string name="dialog_delete_review">Are you sure to delete this review?</string>
 </resources>
