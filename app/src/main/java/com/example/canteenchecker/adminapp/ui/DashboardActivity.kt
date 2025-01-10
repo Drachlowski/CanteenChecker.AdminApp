@@ -63,6 +63,7 @@ class DashboardActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.mniEditCanteen -> {
                 startActivity(EditCanteenActivity.intent(this))
+                updateCanteen()
                 true
             }
             R.id.mniLogOut -> {
@@ -73,43 +74,34 @@ class DashboardActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
 
-    private fun updateCanteen() = lifecycleScope.launch {
-        var authenticationToken = (application as CanteenCheckerApplication).authenticationToken
-        if (authenticationToken == null) {
-            Toast.makeText(this@DashboardActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
-        }
-        else {
-            AdminApiFactory.createAdminApi().getCanteen(authenticationToken)
-                .onFailure {
-                    Toast.makeText(this@DashboardActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
-                }
-                .onSuccess {
-                    binding.txvCanteenName.text = it.name
-                    binding.txvCanteenAddress.text = it.address
-                    binding.txvWebsite.text = it.website
-                    binding.txvPhoneNumber.text = it.phoneNumber
-                    binding.txvWaitingTime.text = it.waitingTime.toString()
-                    binding.prbWaitingTime.progress = it.waitingTime
-
-                    binding.txvDish.text = it.dish
-                    binding.txvDishPrice.text = "${it.dishPrice}€"
-
-                    canteen = it
-
-                }
+    private val receiver = object : CanteenChangedBroadcastReceiver(){
+        override fun onReceiveCanteenChanged(canteenId: String) {
+            if(canteenId == this@DashboardActivity.canteen.id)
+                updateCanteen()
         }
     }
 
-    private val canteenId get() = "28185962-6e44-44a5-9707-f5f7bf398a37"
+    private fun updateCanteen() = lifecycleScope.launch {
+        val authenticationToken = (application as CanteenCheckerApplication).authenticationToken?: ""
 
-    private val receiver = object : CanteenChangedBroadcastReceiver(){
-        override fun onReceiveCanteenChanged(canteenId: String) {
-            Log.w("H", "HERE")
-            if(canteenId == this@DashboardActivity.canteenId){
-
-                // updateCanteenDetails()
+        AdminApiFactory.createAdminApi().getCanteen(authenticationToken)
+            .onFailure {
+                Toast.makeText(this@DashboardActivity, "Something went wrong...", Toast.LENGTH_SHORT).show()
             }
-        }
+            .onSuccess {
+                binding.txvCanteenName.text = it.name
+                binding.txvCanteenAddress.text = it.address
+                binding.txvWebsite.text = it.website
+                binding.txvPhoneNumber.text = it.phoneNumber
+                binding.txvWaitingTime.text = it.waitingTime.toString()
+                binding.prbWaitingTime.progress = it.waitingTime
+
+                binding.txvDish.text = it.dish
+                binding.txvDishPrice.text = "${it.dishPrice}€"
+
+                canteen = it
+
+            }
     }
 
     override fun onDestroy() {

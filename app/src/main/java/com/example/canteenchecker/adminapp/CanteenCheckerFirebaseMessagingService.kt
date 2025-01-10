@@ -1,6 +1,7 @@
 package com.example.canteenchecker.adminapp
 
 import android.util.Log
+import com.example.canteenchecker.adminapp.core.sendCanteenChangedBroadcast
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -18,13 +19,8 @@ class CanteenCheckerFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-
-        Log.e("com.example.canteenchecker.adminapp.CanteenCheckerFirebaseMessagingService", "YUP")
-        Log.d("Testfirebase", "From: ${message.from}")
-        Log.w("Testfirebase", message.toString())
         message.data[REMOTE_MESSAGE_CANTEEN_ID_KEY]?.let {
-            //TODO: send broadcast to subscribers
-            // sendCanteenChangedBroadcast(it)
+            sendCanteenChangedBroadcast(it)
         }
     }
 }

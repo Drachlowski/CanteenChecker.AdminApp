@@ -8,12 +8,12 @@ import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 
 private const val CANTEEN_CHANGED_INTENT_ACTION = "CanteenChanged"
-private const val CANTEEN_CHANGED_INTENT_CANTEEN_ID_KEY = "CanteenId"
+private const val CANTEEN_CHANGED_INTENT_CANTEEN_ID_KEY = "canteenId"
 
-fun Context.sendCanteenChangedBroadcast(canteenId: String) {
+fun Context.sendCanteenChangedBroadcast(id: String) {
     LocalBroadcastManager.getInstance(this)
         .sendBroadcast(Intent(CANTEEN_CHANGED_INTENT_ACTION).apply {
-            putExtra(CANTEEN_CHANGED_INTENT_CANTEEN_ID_KEY, canteenId)
+            putExtra(CANTEEN_CHANGED_INTENT_CANTEEN_ID_KEY, id)
         })
 }
 
