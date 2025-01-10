@@ -29,4 +29,5 @@
     <string name="error_dish_price">Please set a realistic dish price, your canteen should stay profitable</string>
     <string name="delete">Delete</string>
     <string name="dialog_delete_review">Are you sure to delete this review?</string>
+    <string name="tag_map_fragment" translatable="false">MapFragment</string>
 </resources>

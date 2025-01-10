@@ -18,7 +18,7 @@
 
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.EditCanteenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,11 +27,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.DashboardActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ui.LoginActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-        <activity android:name=".ui.ReviewsActivity"
-            android:exported="false" />
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+<!--        <activity android:name=".ui.DashboardActivity"-->
+<!--            android:exported="false" />-->
+
+<!--        <activity android:name=".ui.ReviewsActivity"-->
+<!--            android:exported="false" />-->
 
         <service android:name=".CanteenCheckerFirebaseMessagingService"
             android:exported="false">
